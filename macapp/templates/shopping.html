@@ -1,0 +1,68 @@
+{% extends 'master.html' %}
+
+{% block title %}Home Page - Mac Assistive Devices{% endblock %}
+
+{% block content %}
+
+    <div class="shopping_sidebar">
+        <h2>Categories</h2>
+        <div class="shopping_category" onclick="filterProducts('')">All</div>
+        {% for category in categories %}
+            <div class="shopping_category" onclick="filterProducts('{{ category }}')">{{ category }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="shopping_content" id="productContainer">
+        {% for product in products %}
+        <div class="shopping_product" data-category="{{ product.category }}" onclick="openModal('{{ product.name }}', '{{ product.description }}', '{{ product.price }}', '{{ product.image.url }}')">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>Kshs. {{ product.price }}/=</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="shopping_modal" id="productModal">
+        <div class="shopping_modal-content">
+            <span class="shopping_close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="">
+            <div class="shopping_modal-details">
+                <h2 id="modalTitle"></h2>
+                <p id="modalDescription"></p>
+                <p id="modalPrice"></p>
+                <a id="whatsappLink" href="#" target="_blank" class="shopping_whatsapp-btn">Order on WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(name, description, price, image) {
+            document.getElementById("modalTitle").innerText = name;
+            document.getElementById("modalDescription").innerText = description;
+            document.getElementById("modalPrice").innerText = "$" + price;
+            document.getElementById("modalImage").src = image;
+            
+            let message = encodeURIComponent(`Hello, I'm interested in *${name}* priced at *$${price}*.`);
+            let phoneNumber = "0102272498";
+            document.getElementById("whatsappLink").href = `https://wa.me/${phoneNumber}?text=${message}`;
+
+            document.getElementById("productModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function filterProducts(category) {
+            let products = document.querySelectorAll('.shopping_product');
+            products.forEach(product => {
+                if (category === '' || product.getAttribute('data-category') === category) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+{% endblock %}

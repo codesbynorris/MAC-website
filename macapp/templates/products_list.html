@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product List</title>
+<style>
+body {
+    font-family: sans-serif;
+}
+
+.products {
+    display: table; /* Use table display for the list container */
+    width: 100%; /* Make the table take full width */
+    border-collapse: collapse; /* Collapse table borders for a cleaner look */
+}
+
+.product-row {
+    display: table-row; /* Each product is a table row */
+}
+
+.product-cell {
+    display: table-cell; /* Each piece of product info is a cell */
+    padding: 10px;
+    border: 1px solid #ddd; /* Add borders to cells */
+    text-align: left; /* Align text to the left within cells */
+    vertical-align: top; /* Align content to the top of the cell */
+}
+
+.product-cell img {
+    max-width: 100px;
+    height: 20px;
+}
+
+/* Optional: Add hover effect to rows */
+.product-row:hover {
+    background-color: #f0f0f0;
+}
+
+/* Optional: Style the header row */
+.header-row {
+    background-color: #eee;
+    font-weight: bold;
+}
+
+.header-cell {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+    <h1>Product List</h1>
+    {% if products %}
+        <div class="products">
+            <div class="product-row header-row">
+                <div class="product-cell header-cell">Name</div>
+                <div class="product-cell header-cell">Price</div>
+                <div class="product-cell header-cell">Image</div>
+            </div>
+
+            {% for product in products %}
+                <div class="product-row">
+                    <div class="product-cell">{{ product.name }}</div>
+                    <div class="product-cell">${{ product.price }}</div>
+                    <div class="product-cell">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products available</p>
+    {% endif %}
+</body>
+</html>

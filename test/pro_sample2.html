@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Showcase</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #333;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 15px;
+        }
+
+        .category {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+        }
+
+        .category:hover {
+            background: #444;
+        }
+
+        /* Product section */
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .product {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+            background: white;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .whatsapp-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Categories</h2>
+        <div class="category" onclick="filterProducts('all')">All</div>
+        <div class="category" onclick="filterProducts('books')">Books</div>
+        <div class="category" onclick="filterProducts('electronics')">Electronics</div>
+        <div class="category" onclick="filterProducts('clothing')">Clothing</div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="content" id="productContainer">
+        <div class="product" data-category="books" onclick="openModal('Book 1', 'A great book.', '15', 'book1.jpg')">
+            <img src="book1.jpg" alt="Book 1">
+            <h3>Book 1</h3>
+            <p>$15</p>
+        </div>
+
+        <div class="product" data-category="electronics" onclick="openModal('Laptop', 'A high-performance laptop.', '500', 'laptop.jpg')">
+            <img src="laptop.jpg" alt="Laptop">
+            <h3>Laptop</h3>
+            <p>$500</p>
+        </div>
+
+        <div class="product" data-category="clothing" onclick="openModal('T-Shirt', 'A cool T-shirt.', '20', 'tshirt.jpg')">
+            <img src="tshirt.jpg" alt="T-Shirt">
+            <h3>T-Shirt</h3>
+            <p>$20</p>
+        </div>
+
+        <div class="product" data-category="books" onclick="openModal('Book 2', 'Another amazing book.', '12', 'book2.jpg')">
+            <img src="book2.jpg" alt="Book 2">
+            <h3>Book 2</h3>
+            <p>$12</p>
+        </div>
+
+        <div class="product" data-category="electronics" onclick="openModal('Headphones', 'Noise-canceling headphones.', '80', 'headphones.jpg')">
+            <img src="headphones.jpg" alt="Headphones">
+            <h3>Headphones</h3>
+            <p>$80</p>
+        </div>
+    </div>
+
+    <!-- Popup Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="" style="width:100%;">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+            <p id="modalPrice"></p>
+            <a id="whatsappLink" href="#" target="_blank" class="whatsapp-btn">Order on WhatsApp</a>
+        </div>
+    </div>
+
+    <script>
+        function openModal(name, description, price, image) {
+            document.getElementById("modalTitle").innerText = name;
+            document.getElementById("modalDescription").innerText = description;
+            document.getElementById("modalPrice").innerText = "$" + price;
+            document.getElementById("modalImage").src = image;
+            
+            let message = encodeURIComponent(`Hello, I'm interested in *${name}* priced at *$${price}*.`);
+            let phoneNumber = "1234567890"; // Replace with your WhatsApp number
+            document.getElementById("whatsappLink").href = `https://wa.me/${phoneNumber}?text=${message}`;
+
+            document.getElementById("productModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function filterProducts(category) {
+            let products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                if (category === 'all' || product.getAttribute('data-category') === category) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

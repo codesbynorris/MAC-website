@@ -1,0 +1,32 @@
+<h1>Product Inventory</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity in Stock</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity_in_stock }}</td>
+                <td>
+                  {% if product.image %}
+                      <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+                  {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No products found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
