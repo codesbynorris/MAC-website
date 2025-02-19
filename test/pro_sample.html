@@ -98,10 +98,10 @@
         function openModal(name, description, price, image) {
             document.getElementById("modalTitle").innerText = name;
             document.getElementById("modalDescription").innerText = description;
-            document.getElementById("modalPrice").innerText = "$" + price;
+            document.getElementById("modalPrice").innerText = "Kshs. " + price;
             document.getElementById("modalImage").src = image;
             
-            let message = encodeURIComponent(`Hello, I'm interested in *${name}* priced at *$${price}*.`);
+            let message = encodeURIComponent(`Hello, I'm interested in *${name}* priced at *Kshs. ${price}*.`);
             let phoneNumber = "1234567890"; // Replace with your WhatsApp number
             document.getElementById("whatsappLink").href = `https://wa.me/${phoneNumber}?text=${message}`;
 

@@ -1,17 +1,108 @@
-<!DOCTYPE html>
+{% extends 'master.html' %}
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas illo laborum id quis similique corporis saepe suscipit odio incidunt reiciendis? Non repellat placeat ad autem! Maiores accusantium totam nesciunt repellat!</p>
-        
-        <script src="" async defer></script>
-    </body>
-</html>
+{% block title %}Home Page - Mac Assistive Devices{% endblock %}
+
+{% block content %}
+<style>
+        .shopping_container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .shopping_sidebar {
+            width: 250px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .shopping_category {
+            padding: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+        .shopping_category:hover, .shopping_category.active {
+            background: #007bff;
+            color: white;
+        }
+        .shopping_content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .shopping_product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .shopping_product:hover {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .shopping_product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+
+
+
+<div class="container">
+    <h2 class="text-center">Products on Sale</h2>
+
+    <div class="shopping_container">
+        <!-- Category Sidebar -->
+        <div class="shopping_sidebar">
+            <h4>Categories</h4>
+            <div class="shopping_category active" onclick="filterProducts('')">All</div>
+            {% for category in categories %}
+                <div class="shopping_category" onclick="filterProducts('{{ category }}')">{{ category }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Product Grid -->
+        <div class="shopping_content" id="productContainer">
+            {% for product in products %}
+            <div class="shopping_product" data-category="{{ product.category }}" 
+                 onclick="openModal('{{ product.name }}', '{{ product.description }}', '{{ product.price }}', '{{ product.image.url }}')">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h5>{{ product.name }}</h5>
+                <p>Kshs. {{ product.price }}/=</p>
+            </div>
+            {% empty %}
+            <p>No products available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts(category) {
+        let products = document.querySelectorAll('.shopping_product');
+        let categories = document.querySelectorAll('.shopping_category');
+
+        categories.forEach(cat => cat.classList.remove('active'));
+        event.target.classList.add('active');
+
+        products.forEach(product => {
+            if (category === '' || product.getAttribute('data-category') === category) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    }
+
+    function openModal(name, description, price, imageUrl) {
+        alert(`${name}\n${description}\nPrice: Kshs. ${price}`);
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

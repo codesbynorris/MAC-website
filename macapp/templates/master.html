@@ -1,4 +1,6 @@
 {% load static %}  
+{% load humanize %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,10 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'macapp/css/bootstrap.css' %}" />  <link rel="stylesheet" type="text/css" href="{% static 'macapp/css/style.css' %}" />  <link rel="stylesheet" type="text/css" href="{% static 'macapp/css/responsive.css' %}" />  {% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'macapp/css/bootstrap.css' %}" />  
+    <link rel="stylesheet" type="text/css" href="{% static 'macapp/css/responsive.css' %}" />  {% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'macapp/css/style.css' %}" />  
+
     {% endblock %}
 </head>
 
@@ -37,11 +42,9 @@
                     <ul class="navbar-nav ">
                         <li class="nav-item {% if request.path == '/' %}active{% endif %}"> <a class="nav-link" href="{% url 'homepage' %}">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item {% if request.path == '/shop/' %}active{% endif %}"> <a class="nav-link" href="{% url 'shopping' %}">Shop</a>
+                        <li class="nav-item {% if request.path == '/shopping/' %}active{% endif %}"> <a class="nav-link" href="{% url 'shopping' %}">Shop</a>
                         </li>
                         <li class="nav-item {% if request.path == '/about/' %}active{% endif %}"> <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                        </li>
-                        <li class="nav-item {% if request.path == '/contact/' %}active{% endif %}"> <a class="nav-link" href="">Contact Us</a>
                         </li>
                     </ul>
                 </div>
@@ -51,9 +54,13 @@
         {% endblock %}
 
     </div>
-
+    {% block footer %}
     <footer>
         <div class="footer-content">
+            <div class="footer-section">
+                <h3>Mission</h3>
+                <p>Our devices offer power and love to your abilities. Turning disabilities into possibilities</p>
+            </div>
             <div class="footer-section">
                 <h3>Explore</h3>
                 <ul>
@@ -88,5 +95,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="{% static 'js/custom.js' %}"></script>
 </body>
+{% endblock %}
 
 </html>

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
 footer {
-  background-color: #333;
+  background-color: #f89cab;;
   color: white;
   padding: 20px;
   text-align: center;
@@ -37,7 +37,7 @@ footer {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  max-width: 960px;
+  max-width: auto;
   margin: 0 auto;
 }
 
@@ -65,10 +65,14 @@ footer {
 }
 
 .footer-bottom {
-  background-color: #222;
+  background-color: #f16179;
   padding: 10px;
   text-align: center;
   margin-top: 20px;
+}
+
+.footer-bottom a{
+  color: #f89cab;
 }
 </style>
 </head>
@@ -76,6 +80,10 @@ footer {
 
 <footer>
     <div class="footer-content">
+      <div class="footer-section">
+        <h3>Mission</h3>
+        <p>Our devices offer power and love to your abilities. Turning disabilities into possibilities</p>
+    </div>
         <div class="footer-section">
             <h3>Explore</h3>
             <ul>
@@ -101,7 +109,7 @@ footer {
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy;<a class="navbar-brand" href="{% url 'homepage' %}">2025 MAC Assistive Devices</a>. All rights reserved.</p>
+        <p><a class="navbar-brand" href="{% url 'homepage' %}">&copy; 2025 MAC Assistive Devices</a>. All rights reserved.</p>
         
     </div>
 </footer>

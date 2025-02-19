@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from macapp.views import about, inventory_list, master_page, product_list, shop_list, shopping_list
+from macapp.views import about, inventory_list, master_page, product_detail, product_list, shop_list, shopping_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('master', master_page),
     path('inventory/', inventory_list, name='inventory_list'),
     path('shopping/', shopping_list, name='shopping'),
+    path('product/<int:product_id>/', product_detail, name='product_detail'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

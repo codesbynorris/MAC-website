@@ -1,0 +1,194 @@
+{% extends 'master.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+
+    <style>
+        /* General Reset */
+
+
+        .product-container {
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.product-image {
+    flex: 1;
+    max-width: 50%;
+    background-color: #f6bafcf6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.product-details {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f9ece6;
+    max-width: 50%;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e44d26;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.whatsapp-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    align-self: center;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1da851;
+}
+
+/* More Items Section */
+.more-items {
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.more-items h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.more-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.more-item-card {
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px; /* Ensures uniform height for all cards */
+}
+
+.more-item-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.more-item-card h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 8px 0;
+    min-height: 40px; /* Ensures uniform spacing for all product titles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.more-item-card p {
+    font-size: 14px;
+    color: #e44d26;
+    font-weight: bold;
+    min-height: 20px; /* Ensures prices stay aligned */
+}
+
+.more-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+    </style>
+</head>
+<body>
+
+<!-- Product Detail Section -->
+<div class="product-container">
+    <div class="product-image">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    </div>
+    <div class="product-details">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <p class="price">Kshs. {{ product.price|intcomma }}/=</p>
+
+        <a href="https://wa.me/254712345678?text=Hello, I'm interested in {{ product.name }} for Kshs. {{ product.price }}/=" 
+           target="_blank" 
+           class="whatsapp-btn">
+            Order on WhatsApp
+        </a>
+    </div>
+</div>
+
+<!-- More Items Section -->
+<div class="more-items">
+    <h2>More Items You May Like</h2>
+    <div class="more-items-grid">
+        {% for item in more_items %}
+        <a href="{% url 'product_detail' item.id %}" class="more-item-card">
+            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+            <h3>{{ item.name }}</h3>
+            <p>Kshs. {{ item.price|intcomma }}/=</p>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

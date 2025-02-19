@@ -1,0 +1,141 @@
+{% extends 'master.html' %}
+
+{% block title %}Home Page - Mac Assistive Devices{% endblock %}
+
+{% block content %}
+<style>
+.shopping-container {
+    display: flex;
+}
+.shopping-product-grid {
+    flex: 1;
+    display: grid;
+    gap: 20px;
+    padding-left: 20px;
+}
+.shopping_sidebar{
+    width: 250px;
+    background: #f16179;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 0;
+}
+.shopping_category{
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f89cab;
+}
+.shopping_category:hover {
+  background: #f89cab;
+}
+
+.shopping_content {
+  /*margin-left: 250px;*/
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /*justify-content: space-between;*/
+  width: 100%;
+  box-sizing: border-box;
+  
+}
+
+.shopping_product :hover{
+  transform: scale(1.05);
+} 
+
+.shopping_product {
+  width: calc(25% - 20px);
+  max-width: calc(25% - 20px);
+  padding: 20px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease-in-out;
+}
+
+.shopping_product img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+}
+</style>
+<div class="shopping-container">
+    <div class="shopping_sidebar">
+        <h2>Categories</h2>
+        <div class="shopping_category" onclick="filterProducts('')">All</div>
+        {% for category in categories %}
+            <div class="shopping_category" onclick="filterProducts('{{ category }}')">{{ category }}</div>
+        {% endfor %}
+    </div>
+
+    <main class="shopping-product-grid">
+        <div class="shopping_content" id="productContainer">
+            {% for product in products %}
+            <div class="shopping_product" data-category="{{ product.category }}" onclick="openModal('{{ product.name }}', '{{ product.description }}', '{{ product.price }}', '{{ product.image.url }}')">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p>Kshs. {{ product.price }}/=</p>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+
+<div class="shopping_modal" id="productModal">
+    <div class="shopping_modal-content">
+        <span class="shopping_close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" src="" alt="">
+        <div class="shopping_modal-details">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+            <p id="modalPrice"></p>
+            <a id="whatsappLink" href="#" target="_blank" class="shopping_whatsapp-btn">Order on WhatsApp</a>
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        function openModal(name, description, price, image) {
+    document.getElementById("modalTitle").innerText = name;
+    document.getElementById("modalDescription").innerText = description;
+    document.getElementById("modalPrice").innerText = "Kshs. " + price;
+    document.getElementById("modalImage").src = image;
+    
+    // WhatsApp order link
+    let message = encodeURIComponent(`Hello, I'm interested in *${name}* priced at *Kshs. ${price}*.`);
+    let phoneNumber = "0102272498"; // Change to your WhatsApp number
+    document.getElementById("whatsappLink").href = `https://wa.me/${phoneNumber}?text=${message}`;
+
+    document.getElementById("productModal").style.display = "flex";
+
+    // Dim the navbar
+    document.querySelector(".navbar").classList.add("dimmed");
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+
+    // Remove dimming effect from navbar
+    document.querySelector(".navbar").classList.remove("dimmed");
+}
+
+
+    </script>
+
+{% endblock %}
+

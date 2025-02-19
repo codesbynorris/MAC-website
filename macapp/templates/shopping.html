@@ -4,6 +4,87 @@
 
 {% block content %}
 
+{% load humanize %}
+<style>
+.shopping-container {
+    display: flex;
+}
+.shopping-product-grid {
+    flex: 1;
+    display: grid;
+    gap: 20px;
+    padding-left: 20px;
+}
+.shopping_sidebar {
+    width: 250px;
+    background: #f16179;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 0;
+}
+.shopping_category {
+    text-decoration: none;
+    color: #fefefe;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    border-bottom: 1px solid #f89cab;
+}
+.shopping_category:hover {
+    background: #f89cab;
+}
+.shopping_content {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.shopping_product {
+    width: calc(25% - 20px);
+    max-width: calc(25% - 20px);
+    padding: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    text-align: center;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.shopping_product:hover {
+    transform: scale(1.05);
+}
+.shopping_product img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+}
+.product-title {
+    min-height: 50px;
+    text-align: center;
+}
+.product-title h3{
+    font-size: 1rem;
+    padding: 20px;
+    font-weight: normal !important;
+}
+
+.product-price {
+    /*font-weight: bold;*/
+    color: #db4f66;;
+    font-size: large;
+}
+</style>
+
+<div class="shopping-container">
     <div class="shopping_sidebar">
         <h2>Categories</h2>
         <div class="shopping_category" onclick="filterProducts('')">All</div>
@@ -12,57 +93,27 @@
         {% endfor %}
     </div>
 
-    <div class="shopping_content" id="productContainer">
-        {% for product in products %}
-        <div class="shopping_product" data-category="{{ product.category }}" onclick="openModal('{{ product.name }}', '{{ product.description }}', '{{ product.price }}', '{{ product.image.url }}')">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
-            <p>Kshs. {{ product.price }}/=</p>
+    <main class="shopping-product-grid">
+        <div class="shopping_content" id="productContainer">
+            {% for product in products %}
+            <a href="{% url 'product_detail' product.id %}" class="shopping_product" data-category="{{ product.category }}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h3 class="product-title" style="color: black; font-weight: 500;">{{ product.name }}</h3>
+                <p class="product-price">Kshs. {{ product.price|intcomma }}/=</p>
+            </a>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
+    </main>
+</div>
 
-    <div class="shopping_modal" id="productModal">
-        <div class="shopping_modal-content">
-            <span class="shopping_close" onclick="closeModal()">&times;</span>
-            <img id="modalImage" src="" alt="">
-            <div class="shopping_modal-details">
-                <h2 id="modalTitle"></h2>
-                <p id="modalDescription"></p>
-                <p id="modalPrice"></p>
-                <a id="whatsappLink" href="#" target="_blank" class="shopping_whatsapp-btn">Order on WhatsApp</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(name, description, price, image) {
-            document.getElementById("modalTitle").innerText = name;
-            document.getElementById("modalDescription").innerText = description;
-            document.getElementById("modalPrice").innerText = "$" + price;
-            document.getElementById("modalImage").src = image;
-            
-            let message = encodeURIComponent(`Hello, I'm interested in *${name}* priced at *$${price}*.`);
-            let phoneNumber = "0102272498";
-            document.getElementById("whatsappLink").href = `https://wa.me/${phoneNumber}?text=${message}`;
-
-            document.getElementById("productModal").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("productModal").style.display = "none";
-        }
-
-        function filterProducts(category) {
-            let products = document.querySelectorAll('.shopping_product');
-            products.forEach(product => {
-                if (category === '' || product.getAttribute('data-category') === category) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-        }
-    </script>
+<script>
+function filterProducts(category) {
+    let products = document.querySelectorAll('.shopping_product');
+    products.forEach(product => {
+        let productCategory = product.getAttribute('data-category');
+        product.style.display = (category === '' || productCategory === category) ? 'flex' : 'none';
+    });
+}
+</script>
 
 {% endblock %}
